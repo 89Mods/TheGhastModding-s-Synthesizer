@@ -28,7 +28,7 @@ public class TGMSynthesizer {
 	private static int maxVoices = 500;
 	private static float renderingLimit = 95;
 	private static int volume = 100;
-	private static final String VERSION = "1.0.0";
+	private static final String VERSION = "1.0.2";
 	
 	/*public static void main(String[] args){
 		try {
@@ -284,16 +284,19 @@ public class TGMSynthesizer {
 	
 	private static class UpdateThread implements Runnable {
 		
-		private int length;
-		
 		private UpdateThread(){
-			length = (int) Bass.BASS_ChannelSeconds2Bytes(handle, 0.0275);
+			
 		}
 
 		@Override
 		public void run() {
 			while(started){
-				Bass.BASS_ChannelUpdate(handle, length);
+				Bass.BASS_ChannelUpdate(handle, 0);
+				/*try {
+					Thread.sleep(1);
+				}catch(Exception e){
+					e.printStackTrace();
+				}*/
 			}
 		}
 		
