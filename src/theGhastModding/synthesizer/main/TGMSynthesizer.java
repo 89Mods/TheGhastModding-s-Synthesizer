@@ -28,7 +28,7 @@ public class TGMSynthesizer {
 	private static int maxVoices = 500;
 	private static float renderingLimit = 95;
 	private static int volume = 100;
-	private static final String VERSION = "1.0.2";
+	private static final String VERSION = "1.2.0";
 	
 	/*public static void main(String[] args){
 		try {
@@ -233,12 +233,16 @@ public class TGMSynthesizer {
 	 * Start the synthesizer
 	 * @Param audioFrequency: The audio frequency that BASS should use
 	 */
-	public static void startSynth(int audioFrequency) throws Exception {
+	public static void startSynth(int audioFrequency, boolean mono) throws Exception {
 		if(started){
 			throw new SynthesizerException("Synth is allready running");
 		}
 		BassInit.loadLibraries();
-		Bass.BASS_Init(-1, audioFrequency, BASS_DEVICE.BASS_DEVICE_LATENCY, null, null);
+		if(mono){
+			Bass.BASS_Init(-1, audioFrequency, BASS_DEVICE.BASS_DEVICE_MONO, null, null);
+		}else{
+			Bass.BASS_Init(-1, audioFrequency, BASS_DEVICE.BASS_DEVICE_LATENCY, null, null);
+		}
         Bass.BASS_SetConfig(BASS_CONFIG.BASS_CONFIG_UPDATEPERIOD, 0);
         Bass.BASS_SetConfig(BASS_CONFIG.BASS_CONFIG_UPDATETHREADS, 32);
         BASS_INFO info = BASS_INFO.allocate();
