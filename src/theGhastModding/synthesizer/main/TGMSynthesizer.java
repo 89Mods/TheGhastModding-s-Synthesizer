@@ -247,7 +247,7 @@ public class TGMSynthesizer {
         Bass.BASS_SetConfig(BASS_CONFIG.BASS_CONFIG_UPDATETHREADS, 32);
         BASS_INFO info = BASS_INFO.allocate();
         Bass.BASS_GetInfo(info);
-        Bass.BASS_SetConfig(BASS_CONFIG.BASS_CONFIG_BUFFER, info.getMinBuffer() + 10);
+        Bass.BASS_SetConfig(BASS_CONFIG.BASS_CONFIG_BUFFER, info.getMinBuffer() + 40);
         stream = Bass.BASS_MIDI_StreamCreate(16, BASS_SAMPLE.BASS_SAMPLE_SOFTWARE | BASS_SAMPLE.BASS_SAMPLE_FLOAT, audioFrequency);
         handle = stream.asInt();
         started = true;
