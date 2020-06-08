@@ -29,7 +29,7 @@ public class TGMSynthesizer {
 	private static float renderingLimit = 95;
 	private static int volume = 100;
 	private static Thread updateThread;
-	private static final String VERSION = "1.2.0";
+	private static final String VERSION = "1.2.1";
 	
 	/*public static void main(String[] args){
 		try {
