@@ -28,16 +28,17 @@ public class TGMSynthesizer {
 	private static int maxVoices = 500;
 	private static float renderingLimit = 95;
 	private static int volume = 100;
+	private static Thread updateThread;
 	private static final String VERSION = "1.2.0";
 	
 	/*public static void main(String[] args){
 		try {
-			startSynth(44100);
-			loadFont("default.sf2");
+			startSynth(44100, false);
+			loadFont("/media/luca/E2DE-DC8E/FluidR3_GM.SF2");
 			sendEvent(new MidiEvent(MidiEvent.MIDI_EVENT_PROGRAM, 1, 0,0));
-			sendEvent(new MidiEvent(MidiEvent.MIDI_EVENT_NOTE, 1, 100, 60));
+			sendEvent(new MidiEvent(MidiEvent.MIDI_EVENT_NOTE, 1, 60, 100));
 			Thread.sleep(1000);
-			sendEvent(new MidiEvent(MidiEvent.MIDI_EVENT_NOTE,1,0,60));
+			sendEvent(new MidiEvent(MidiEvent.MIDI_EVENT_NOTE,1,60,0));
 			Thread.sleep(2000);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -48,7 +49,6 @@ public class TGMSynthesizer {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.exit(0);
 	}*/
 	
 	/*
@@ -255,7 +255,8 @@ public class TGMSynthesizer {
         setUseFx(true);
         setOnlyReleaseOnOverlapingInstances(false);
         Bass.BASS_ChannelPlay(handle, false);
-        new Thread(new UpdateThread()).start();
+        updateThread = new Thread(new UpdateThread());
+        updateThread.start();
 	}
 	
 	/**
@@ -332,6 +333,7 @@ public class TGMSynthesizer {
 			throw new SynthesizerException("Cant stop the synth when it isnt even running");
 		}
 		started = false;
+		updateThread.join(2000);
 		Bass.BASS_StreamFree(stream);
 		Bass.BASS_Free();
 	}
